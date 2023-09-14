@@ -308,7 +308,7 @@ loop
           end if;
 
 
-    insert into EINTERFACE.KD_KARDET_ARCHIVO_2018
+    insert into EINTERFACE.KD_KARDET_ARCHIVO_PVO
   (
     PERIODO ,
     CUO ,
