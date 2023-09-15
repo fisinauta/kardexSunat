@@ -189,22 +189,17 @@ SELECT  Q.* FROM
                        AND CUO.tipo='M2'
                      where k.trans_date BETWEEN to_date(FechaInicio, 'YYYYMMDD') AND to_date(FechaFin, 'YYYYMMDD')
                        and k.cod_emp='01'
-                      -- and K.ORG_LVL_CHILD    in ( 2269, 2225, 2219 )
---select *  from orgmstee where org_lvl_number = 
---select *  from EINTERFACE.hp_kardet_valores_fijos
             ) S
 
-   inner join EINTERFACE.hp_kardet_valores_fijos f1 on f1.id=1
+    inner join EINTERFACE.hp_kardet_valores_fijos f1 on f1.id=1
     inner join EINTERFACE.hp_kardet_valores_fijos f2 on f2.id=2
     inner join EINTERFACE.hp_kardet_valores_fijos f3 on f3.id=3
     inner join EINTERFACE.hp_kardet_valores_fijos f4 on f4.id=4
     inner join EINTERFACE.hp_kardet_valores_fijos f5 on f5.id=5
     inner join EINTERFACE.hp_kardet_valores_fijos f6 on f6.id=6
     inner join EINTERFACE.hp_kardet_valores_fijos f7 on f7.id=7
-    --inner JOIN EINTERFACE.hp_kardet_valores_fijos F8 ON F8.ID BETWEEN 8 AND 48 AND F8.VALOR=TO_CHAR(S.SUCURSAL)
-   inner JOIN EINTERFACE.hp_kardet_valores_fijos F8 ON F8.ID BETWEEN 8 AND 703 AND F8.VALOR = TO_CHAR(GET_ORG_EQUIV_SAP_PMM_2(S.COD_ESTABLECIMIENTO))
- --MMG27062017 SE AGREGÓ CONVRERSIÓN DE UNIDADES DE MEDIDA
-  inner JOIN EINTERFACE.hp_kardet_valores_fijos F9 ON F9.ID BETWEEN 3000 AND 3005 AND F9.VALOR = S.COD_UMV
+    inner JOIN EINTERFACE.hp_kardet_valores_fijos F8 ON F8.ID BETWEEN 8 AND 703 AND F8.VALOR = TO_CHAR(GET_ORG_EQUIV_SAP_PMM_2(S.COD_ESTABLECIMIENTO))
+    inner JOIN EINTERFACE.hp_kardet_valores_fijos F9 ON F9.ID BETWEEN 3000 AND 3005 AND F9.VALOR = S.COD_UMV
      ORDER BY
 
               COD_EXISTENCIA_CATALOGO ASC,
