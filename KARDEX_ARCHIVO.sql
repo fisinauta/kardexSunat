@@ -1,56 +1,48 @@
 DECLARE
-   type tabla_tipo_inv is table of EINTERFACE.KD_KARDET_ARCHIVO_PVO%rowtype;
-   datos_VENTAS tabla_tipo_inv;
+type tabla_tipo_inv is table of EINTERFACE.KD_KARDET_ARCHIVO_PVO%rowtype;
+datos_VENTAS tabla_tipo_inv;
 
- fecha varchar2(10);
- prd_lvl_child_temp number;
- tda_sunat_temp varchar2(10);
+fecha varchar2(10);
+prd_lvl_child_temp number;
+tda_sunat_temp varchar2(10);
 
- can_diferencia number;
- costo_diferencia number;
- saldo_uni_inicial number;
- saldo_cos_inicial number;
-
+can_diferencia number;
+costo_diferencia number;
+saldo_uni_inicial number;
+saldo_cos_inicial number;
 
 cursor nuevos_datos(FECHAINICIO VARCHAR2, FECHAFIN VARCHAR2,pcod_emp varchar2) is
 SELECT  Q.* FROM
 ( SELECT  
- --<0004>
-   PERIODO,
- --</0004>
-       CUO ,
-       TIPO_ASIENTO,
-      to_char(f8.valor2) COD_ESTABLECIMIENTO,
-       to_char(f1.valor) COD_CATALOGO,
-       --f2.valor TIPO_EXISTENCIA,
-       TIPO_EXISTENCIA ,
-       COD_EXISTENCIA_CATALOGO,
-
-       f3.valor COD_EXISTENCIA_UNICOB,
-       FECHA_EMISION,
-       TIPO_DOCUMENTO,
-       DOCUMENTO_SERIE,
-       DOCUMENTO_CORRELATIVO,
-       TIPOOPERACION,
-       DESCRIPCION_EXISTENCIA,
-       f9.valor2 COD_UNI_MEDIDA,
-       f4.valor CODIGO_DEVALUACION,
-       NVL(TRANS_QTY_IN,0),
-       NVL(IN_UNIT,0),
-       NVL(TRANS_COS_IN,0)TRANS_COS_IN,
-       NVL(TRANS_QTY_OU,0),
-       NVL(OUT_UNIT,0),
-       NVL(TRANS_COS_OU,0)TRANS_COS_OU,
-       NVL(INV_FIN_UNI,0),
-       NVL(SALDO_UNIT_FINAL,0),
-
-       --<0004>
-       NVL(INV_FIN_CST,0),
-       --</0004>
-       f5.valor ESTADO_FINAL,
-       f6.valor CAMPO_LIBRE,
-       0,
-       '20100070970'  RUC ,
+        PERIODO,
+        CUO ,
+        TIPO_ASIENTO,
+        to_char(f8.valor2) COD_ESTABLECIMIENTO,
+        to_char(f1.valor) COD_CATALOGO,
+        TIPO_EXISTENCIA ,
+        COD_EXISTENCIA_CATALOGO,
+        f3.valor COD_EXISTENCIA_UNICOB,
+        FECHA_EMISION,
+        TIPO_DOCUMENTO,
+        DOCUMENTO_SERIE,
+        DOCUMENTO_CORRELATIVO,
+        TIPOOPERACION,
+        DESCRIPCION_EXISTENCIA,
+        f9.valor2 COD_UNI_MEDIDA,
+        f4.valor CODIGO_DEVALUACION,
+        NVL(TRANS_QTY_IN,0),
+        NVL(IN_UNIT,0),
+        NVL(TRANS_COS_IN,0)TRANS_COS_IN,
+        NVL(TRANS_QTY_OU,0),
+        NVL(OUT_UNIT,0),
+        NVL(TRANS_COS_OU,0)TRANS_COS_OU,
+        NVL(INV_FIN_UNI,0),
+        NVL(SALDO_UNIT_FINAL,0),
+        NVL(INV_FIN_CST,0),
+        f5.valor ESTADO_FINAL,
+        f6.valor CAMPO_LIBRE,
+        0,
+        '20100070970'  RUC ,
         T  ,
         ORG_LVL_CHILD  ,
         INV_MRPT_CODE,
@@ -58,34 +50,21 @@ SELECT  Q.* FROM
         trans_ref ,
         trans_ref2,
         1
-
-        --ORDENMOVIMIENTOS
-
-
-
   FROM (
-
-
-
           select DISTINCT
                    to_char(trans_date, 'YYYYMM') Periodo,
-                   --'1000'||nvl(CUO.cuo, k.cuo_sunat) CUO,
                    DECODE(CUO.cuo , NULL, NULL , '1000'||'2018'||nvl(CUO.cuo,k.cuo_sunat)) CUO,
                    'M001' TIPO_ASIENTO,
                    k.org_lvl_child COD_ESTABLECIMIENTO,
                    TP.PRD_LVL_NUMBER COD_EXISTENCIA_CATALOGO,
                    DECODE(TP.COD_TIPNEG, '094','02','095','03','092','05','01') TIPO_EXISTENCIA ,
                    TO_CHAR(TRANS_DATE, 'DD/MM/YYYY') FECHA_EMISION,
-
                    case when K.TIP_DOC='0' then '12'
                      else
                        K.TIP_DOC
                        end
-
-
                     TIPO_DOCUMENTO,
-                   lpad(nvl(substr(K.DOC_NUM,1,4),'0000'),4,'0') DOCUMENTO_SERIE,
-
+                    lpad(nvl(substr(K.DOC_NUM,1,4),'0000'),4,'0') DOCUMENTO_SERIE,
                    case when K.TIP_DOC='0' or K.TIP_DOC='12' then
                      substr(to_char(rownum),1,8)
                    else
@@ -110,26 +89,18 @@ SELECT  Q.* FROM
                    END) OUT_UNIT,
                    K.TRANS_COS_OU,
                     0 INV_FIN_UNI,
-                   /*SALDO.INV_FIN_CST / (CASE
-                     WHEN SALDO.INV_FIN_UNI = 0 THEN
-                      1
-                     ELSE
-                      SALDO.INV_FIN_UNI
-                   END)*/ 0 SALDO_UNIT_FINAL,
-                   0 INV_FIN_CST,
+                    0 SALDO_UNIT_FINAL,
+                    0 INV_FIN_CST,
                    K.TRN_TECH_KEY ORDENMOVIMIENTOS,
                    tp.prd_full_name DESCRIPCION_EXISTENCIA,
---<0004>
                    '20100070970' RUC ,
                    K.ORG_LVL_CHILD ORG_LVL_CHILD,
                    1 T,
-
                    K.INV_MRPT_CODE,
                    K.INV_DRPT_CODE,
                    '' trans_ref ,
                    '' trans_ref2,
                    TP.COD_UMV
---</0004>
               from EINTERFACE.kd_kardet_vt_PVO k
               inner join EDSR.IFHPRDMST tp
                       on tp.prd_lvl_child=k.trans_prd_child
