@@ -109,15 +109,11 @@ SELECT  Q.* FROM
                      AND CUO.tipo='M2'
                    where k.trans_date BETWEEN to_date(FechaInicio, 'YYYYMMDD') AND to_date(FechaFin, 'YYYYMMDD')
                      and k.cod_emp='01'
-                    -- select *  from kd_kardet_archivo where periodo = '201711'
-                   --select *  from orgmstee 
-                     --and K.ORG_LVL_CHILD    in ( 2269, 2225, 2219 )
---select *  from orgmstee
+                    
               union all
 
              select DISTINCT 
                    tO_CHAR(TRANS_DATE, 'YYYYMM') "Periodo",
-                   --'1000'||'2016'||nvl(CUO.cuo,k.cuo_sunat) CUO,
                    DECODE(CUO.cuo , NULL, NULL , '1000'||'2018'||nvl(CUO.cuo,k.cuo_sunat)) CUO,
                    'M001' TIPO_ASIENTO,
                    k.org_lvl_child COD_ESTABLECIMIENTO,
@@ -162,12 +158,7 @@ SELECT  Q.* FROM
                    END),
                    K.TRANS_COS_OU,
                    0 INV_FIN_UNI,
-                   /*SALDO.INV_FIN_CST / (CASE
-                     WHEN SALDO.INV_FIN_UNI = 0 THEN
-                      1
-                     ELSE
-                      SALDO.INV_FIN_UNI
-                   END),*/0 SALDO_UNIT_FINAL,
+                   0 SALDO_UNIT_FINAL,
                    0 INV_FIN_CST,
                    K.AUDIT_NUMBER,
                      tp.prd_full_name DESCRIPCION_EXISTENCIA,
@@ -181,7 +172,6 @@ SELECT  Q.* FROM
                       TP.COD_UMV
                       
                       from EINTERFACE.kd_kardet_otros_PVO k
-                      --SELECT *  FROM kd_kardet_otros
                 inner join EDSR.IFHPRDMST tp on tp.prd_lvl_child=k.trans_prd_child
                
                 LEFT OUTER JOIN EINTERFACE.KD_KARDET_CUO_PVO CUO
@@ -228,12 +218,6 @@ SELECT  Q.* FROM
      execute immediate 'alter sequence SEQ_KD_KARDET_ARCHIVO increment by -' || to_char(nsecuencia) || '' ;
      select SEQ_KD_KARDET_ARCHIVO.NEXTVAL  into nsecuencia from dual;
      execute immediate 'alter sequence SEQ_KD_KARDET_ARCHIVO increment by 1' ;
-
-
-   --<0004>
- --  EXECUTE IMMEDIATE 'TRUNCATE TABLE kd_kardet_archivo';
-   --</0004>
---seelct }  from einterface.KD_KARDET_ARCHIVO_SI 
 
    open nuevos_datos('20181211','20181231' ,'01' );
 loop
