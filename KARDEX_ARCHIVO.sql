@@ -188,7 +188,7 @@ SELECT  Q.* FROM
     inner join EINTERFACE.hp_kardet_valores_fijos f5 on f5.id=5
     inner join EINTERFACE.hp_kardet_valores_fijos f6 on f6.id=6
     inner join EINTERFACE.hp_kardet_valores_fijos f7 on f7.id=7
-    inner JOIN EINTERFACE.hp_kardet_valores_fijos F8 ON F8.ID BETWEEN 8 AND 703 AND F8.VALOR = TO_CHAR(GET_ORG_EQUIV_SAP_PMM_2(S.COD_ESTABLECIMIENTO))
+    inner JOIN EINTERFACE.hp_kardet_valores_fijos F8 ON F8.ID BETWEEN 8 AND 709 AND F8.VALOR = TO_CHAR(GET_ORG_EQUIV_SAP_PMM_2(S.COD_ESTABLECIMIENTO))
     inner JOIN EINTERFACE.hp_kardet_valores_fijos F9 ON F9.ID BETWEEN 3000 AND 3005 AND F9.VALOR = S.COD_UMV
      ORDER BY
 
@@ -208,16 +208,16 @@ SELECT  Q.* FROM
 
 
    BEGIN
-     select SEQ_KD_KARDET_CUO.NEXTVAL  into nsecuencia from dual;
-     execute immediate 'alter sequence SEQ_KD_KARDET_CUO increment by -' || to_char(nsecuencia) || '' ;
-     select SEQ_KD_KARDET_CUO.NEXTVAL  into nsecuencia from dual;
-     execute immediate 'alter sequence SEQ_KD_KARDET_CUO increment by 1' ;
+     select SEQ_KD_KARDET_CUO_PVO.NEXTVAL  into nsecuencia from dual;
+     execute immediate 'alter sequence SEQ_KD_KARDET_CUO_PVO increment by -' || to_char(nsecuencia) || '' ;
+     select SEQ_KD_KARDET_CUO_PVO.NEXTVAL  into nsecuencia from dual;
+     execute immediate 'alter sequence SEQ_KD_KARDET_CUO_PVO increment by 1' ;
 
 
-     select SEQ_KD_KARDET_ARCHIVO.NEXTVAL  into nsecuencia from dual;
-     execute immediate 'alter sequence SEQ_KD_KARDET_ARCHIVO increment by -' || to_char(nsecuencia) || '' ;
-     select SEQ_KD_KARDET_ARCHIVO.NEXTVAL  into nsecuencia from dual;
-     execute immediate 'alter sequence SEQ_KD_KARDET_ARCHIVO increment by 1' ;
+     select SEQ_KD_KARDET_ARCHIVO_PVO.NEXTVAL  into nsecuencia from dual;
+     execute immediate 'alter sequence SEQ_KD_KARDET_ARCHIVO_PVO increment by -' || to_char(nsecuencia) || '' ;
+     select SEQ_KD_KARDET_ARCHIVO_PVO.NEXTVAL  into nsecuencia from dual;
+     execute immediate 'alter sequence SEQ_KD_KARDET_ARCHIVO_PVO increment by 1' ;
 
    open nuevos_datos('20181211','20181231' ,'01' );
 loop
@@ -328,7 +328,7 @@ loop
     saldo_cos_inicial ,
     datos_VENTAS(i).ESTADO_FINAL  ,
     datos_VENTAS(i).CAMPO_LIBRE,
-    SEQ_KD_KARDET_ARCHIVO.NEXTVAL,
+    SEQ_KD_KARDET_ARCHIVO_PVO.NEXTVAL,
      datos_VENTAS(i).RUCEMPRESA,
      datos_VENTAS(i).ORG_LVL_CHILD,
      datos_VENTAS(i).INV_MRPT_CODE     ,
